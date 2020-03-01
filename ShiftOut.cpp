@@ -28,6 +28,6 @@ void shiftRegisterSetup(int _latchPin, int _dataPin, int _clockPin) {
 
 void shiftRegisterSend(byte data) {
    digitalWrite(LATCH_PIN, LOW);
-   shiftOut(DATA_PIN, CLOCK_PIN, LSBFIRST, data); // 15.775uS per bit 63.391Kbps
+   shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, data); // 15.775uS per bit 63.391Kbps
    digitalWrite(LATCH_PIN, HIGH);
 }
