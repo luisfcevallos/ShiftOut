@@ -15,7 +15,7 @@ void setup() {
 
 void loop() {
     for (size_t counter = 0; counter <= 8; counter++) {
-        int temp = BIT_SEED >> (8 - counter);
+        int temp = BIT_SEED >> (8 - counter);   // 0, 1, 2, 4, 8, 16, 32, 64, 128
         shiftRegisterSend(temp);
     }
 }
