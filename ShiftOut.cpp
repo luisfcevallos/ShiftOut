@@ -6,28 +6,40 @@
 
 #define BIT_SEED 128
 
-void shiftRegisterSetup(int, int, int);
-void shiftRegisterSend(byte);
+class ShiftOut {
+private:
+    int latchPin, dataPin, clockPin;
+
+public:
+    ShiftOut(int, int, int);
+    void init();
+    void send(byte);
+};
+
+ShiftOut myRegister(LATCH_PIN, DATA_PIN, CLOCK_PIN);
 
 void setup() {
-    shiftRegisterSetup(LATCH_PIN, DATA_PIN, CLOCK_PIN);
+    myRegister.init();
 }
 
 void loop() {
     for (size_t counter = 0; counter <= 8; counter++) {
         int temp = BIT_SEED >> (8 - counter);   // 0, 1, 2, 4, 8, 16, 32, 64, 128
-        shiftRegisterSend(temp);
+        myRegister.send(temp);
     }
 }
 
-void shiftRegisterSetup(int _latchPin, int _dataPin, int _clockPin) {
-    pinMode(_latchPin, OUTPUT);
-    pinMode(_dataPin, OUTPUT);
-    pinMode(_clockPin, OUTPUT);
+ShiftOut::ShiftOut(int _latchPin, int _dataPin, int _clockPin): latchPin(_latchPin),
+    dataPin(_dataPin), clockPin(_clockPin) {}
+
+void ShiftOut::init() {
+    pinMode(latchPin, OUTPUT);
+    pinMode(dataPin, OUTPUT);
+    pinMode(clockPin, OUTPUT);
 }
 
-void shiftRegisterSend(byte data) {
-   digitalWrite(LATCH_PIN, LOW);
-   shiftOut(DATA_PIN, CLOCK_PIN, MSBFIRST, data); // 15.775uS per bit 63.391Kbps
-   digitalWrite(LATCH_PIN, HIGH);
+void ShiftOut::send(byte _data) {
+    digitalWrite(latchPin, LOW);
+    shiftOut(dataPin, clockPin, MSBFIRST, _data); // 15.775uS per bit 63.391Kbps
+    digitalWrite(latchPin, HIGH);
 }
