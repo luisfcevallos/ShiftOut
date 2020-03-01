@@ -1,20 +1,11 @@
 #include <Arduino.h>
+#include "ShiftOut.h"
 
 #define LATCH_PIN 4
 #define DATA_PIN 5
 #define CLOCK_PIN 6
 
 #define BIT_SEED 128
-
-class ShiftOut {
-private:
-    int latchPin, dataPin, clockPin;
-
-public:
-    ShiftOut(int, int, int);
-    void init();
-    void send(byte);
-};
 
 ShiftOut myRegister(LATCH_PIN, DATA_PIN, CLOCK_PIN);
 
